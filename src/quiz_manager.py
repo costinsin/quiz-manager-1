@@ -5,6 +5,7 @@
 import click
 from parsers import hr
 from parsers import mxml
+from statistics import generator
 
 
 @click.group()
@@ -12,6 +13,31 @@ def cli():
     """
     Entrypoint of the application
     """
+
+
+@cli.command()
+@click.option("-f", "--csv-file", "csv_file", required=True, help="CSV input file")
+@click.option(
+    "-o",
+    "--output-type",
+    "output_type",
+    required=True,
+    type=click.Choice(["PDF", "CSV"]),
+    help="Format type of the output file",
+)
+def generate_statistics(csv_file, output_type):
+    """
+    Generates more meaningful statistics.
+
+    It is based on the default Moodle CSV statistics file and generates statistics about the quiz
+    questions that help the quiz owner find problems with the questions based of the quiz responses.
+    """
+    # TODO: convert csv_file to json quiz_data
+    quiz_data = {}
+
+    statistics = generator.compute_statistics(quiz_data)
+
+    # TODO: Generate output based on the specified type
 
 
 @cli.command()
